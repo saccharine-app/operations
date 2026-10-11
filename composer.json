@@ -1,0 +1,23 @@
+{
+    "name": "saccharine/operations",
+    "description": "Domain-agnostic case, facility, and stakeholder operations engine.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Saccharine\\Operations\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Saccharine\\Operations\\OperationsServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "filament/filament": "^3.2"
+    }
+}
