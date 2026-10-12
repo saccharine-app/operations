@@ -3,6 +3,7 @@
 namespace Saccharine\Operations;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class OperationsServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,10 @@ class OperationsServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'saccharine');
+
+        Relation::morphMap([
+            'case_file' => \Saccharine\Operations\Models\CaseFile::class,
+        ]);
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
