@@ -10,7 +10,7 @@ class PublicIntakeController extends Controller
     // Shows the HTML form
     public function create()
     {
-        return view('intake.form');
+        return view('saccharine::intake.form');
     }
 
     // Handles the form submission
@@ -29,8 +29,8 @@ class PublicIntakeController extends Controller
             'status' => 'pending',
             'source_channel' => 'Public Website Form',
             'submitted_name' => $validated['submitted_name'],
-            'contact_phone' => $validated['contact_phone'],
-            'contact_email' => $validated['contact_email'],
+            'contact_phone' => $validated['contact_phone'] ?? null,
+            'contact_email' => $validated['contact_email'] ?? null,
             'raw_payload' => ['message' => $validated['message'] ?? ''],
         ]);
 

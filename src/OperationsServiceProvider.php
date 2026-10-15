@@ -17,6 +17,13 @@ class OperationsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'saccharine');
 
+        // Register the package's Blade views (e.g. the public intake form)
+        // under the `saccharine::` namespace.
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'saccharine');
+
+        // Register the public-facing intake routes (/intake, /submit-intake).
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+
         Relation::morphMap([
             'case_file' => \Saccharine\Operations\Models\CaseFile::class,
         ]);
