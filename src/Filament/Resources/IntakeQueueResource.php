@@ -65,7 +65,8 @@ class IntakeQueueResource extends Resource
                             ->label('Source Channel')
                             ->placeholder('e.g., Google Ad, Website Form')
                             ->maxLength(255),
-                    ])->columns(2), // Puts the inputs into a clean 2-column CSS grid
+                    ])->columns(2)
+                    ->columnSpanFull(), // Puts the inputs into a clean 2-column CSS grid
 
                 Section::make('Raw Webhook Payload')
                     ->description('The unmodified JSON payload from the source.')
@@ -74,7 +75,8 @@ class IntakeQueueResource extends Resource
                             ->label('')
                             ->rows(6)
                             ->columnSpanFull(), // Stretches across the entire section
-                    ])->collapsed(), // Keeps the UI clean by hiding the raw JSON by default
+                    ])->collapsed()
+                    ->columnSpanFull(), // Keeps the UI clean by hiding the raw JSON by default
             ]);
     }
 

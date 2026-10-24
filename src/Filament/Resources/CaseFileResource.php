@@ -49,7 +49,7 @@ class CaseFileResource extends Resource
                             ->default('lead')
                             ->required()
                             ->native(false),
-                    ])->columns(3),
+                    ]),
 
                 Section::make('Assignments & Logistics')
                     ->schema([                            
@@ -60,7 +60,7 @@ class CaseFileResource extends Resource
                             ->label('Assigned Staff')
                             ->searchable()
                             ->preload(),
-                    ])->columns(2),
+                    ]),
 
                 Tabs::make('Case Details')
                     ->tabs([
@@ -107,28 +107,66 @@ class CaseFileResource extends Resource
                                     ])
                                     ->columns(2), // Makes the fields sit side-by-side inside the fieldset
                                     
-                            ])->columns(2),
+                            ]),
 
                         Tabs\Tab::make('Case Participants')
                             ->icon('heroicon-o-shield-exclamation')
+                            ->badge(fn ($record) => $record?->caseContacts()?->count() ?: null)
                             ->schema([
                                 Forms\Components\Repeater::make('caseContacts')
                                     ->relationship('caseContacts') // This links to the morphMany relationship
+                                    ->itemLabel(fn (array $state): ?string => 
+                                        !empty($state['first_name']) || !empty($state['last_name'])
+                                            ? trim(($state['first_name'] ?? '') . ' ' . ($state['last_name'] ?? '')) . ' (' . ($state['role'] ?? 'Participant') . ')'
+                                            : null
+                                    )
+                                    ->collapsible()
+                                    ->collapsed(fn (string $operation): bool => $operation === 'edit')
+                                    ->cloneable()
                                     ->schema([
                                         Forms\Components\Select::make('role')
+                                            ->label('Designated Role')
                                             ->options([
-                                                'spouse' => 'Spouse',
-                                                'parent' => 'Parent',
-                                                'other' => 'Other',
+                                                'primary_contact' => 'Primary Informant / Client',
+                                                'executor' => 'Estate Executor',
+                                                'next_of_kin' => 'Next of Kin',
+                                                'spouse' => 'Spouse / Partner',
+                                                'parent' => 'Parent / Guardian',
+                                                'physician' => 'Certifying Physician',
+                                                'other' => 'Other Representative',
                                             ])
                                             ->required()
                                             ->native(false),
-                                        Forms\Components\TextInput::make('relationship_to_subject'),
-                                        Forms\Components\TextInput::make('first_name')->required(),
-                                        Forms\Components\TextInput::make('middle_name'),
-                                        Forms\Components\TextInput::make('last_name')->required(),
-                                        Forms\Components\TextInput::make('phone_number')->tel(),
-                                        Forms\Components\TextInput::make('email_address')->email(),
+
+                                        Forms\Components\TextInput::make('relationship_to_subject')
+                                            ->label('Relationship')
+                                            ->placeholder('e.g., Daughter, Solicitor')
+                                            ->maxLength(255),
+                                        
+                                        Forms\Components\TextInput::make('first_name')
+                                            ->label('First Name')
+                                            ->required()
+                                            ->maxLength(255),
+                                        
+                                        Forms\Components\TextInput::make('middle_name')
+                                            ->label('Middle Name')
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('last_name')
+                                            ->label('Last Name')
+                                            ->required()
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('phone_number')
+                                            ->label('Telephone')
+                                            ->tel()
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('email_address')
+                                            ->label('Email Address')
+                                            ->email()
+                                            ->maxLength(255),
+                                            
                                         Forms\Components\TextInput::make('address_street'),
                                         Forms\Components\TextInput::make('address_city'),
                                         Forms\Components\TextInput::make('address_state_province'),

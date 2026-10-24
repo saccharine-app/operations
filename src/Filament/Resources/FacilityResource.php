@@ -56,7 +56,8 @@ class FacilityResource extends Resource
                             
                         Forms\Components\TextInput::make('license_number')
                             ->maxLength(255),
-                    ])->columns(2),
+                    ])->columns(2)
+                    ->columnSpanFull(),
 
                 Section::make('Location & Contact')
                     ->schema([
@@ -66,7 +67,8 @@ class FacilityResource extends Resource
                         Forms\Components\TextInput::make('address_country')->default('Canada'),
                         Forms\Components\TextInput::make('address_postal_code'),
                         Forms\Components\TextInput::make('phone_number')->tel(),
-                    ])->columns(3),
+                    ])->columns(3)
+                    ->columnSpanFull(),
 
                 Section::make('Extended Operations Data')
                     ->description('Custom attributes like gate codes, hours, or specific procedural flags.')
@@ -76,7 +78,8 @@ class FacilityResource extends Resource
                             ->valueLabel('Value')
                             ->addActionLabel('Add Custom Field')
                             ->columnSpanFull(),
-                    ])->collapsed(),
+                    ])->collapsed()
+                    ->columnSpanFull(),
             ]);
     }
 

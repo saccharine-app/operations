@@ -59,7 +59,8 @@ class StaffMemberResource extends Resource
                             ->label('Active Employee')
                             ->default(true)
                             ->inline(false),
-                    ])->columns(2),
+                    ])->columns(2)
+                    ->columnSpanFull(),
             ]);
     }
 
